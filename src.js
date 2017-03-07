@@ -154,8 +154,12 @@ createMenu = function() {
 	for(var i in headers) {
 		htmlObject+='<input id='+headers[i]+' type="checkbox" onchange="updateChart()" value="'+headers[i]+'">'+headers[i]
 	}
-	htmlObject += '<button onclick="clearSelection()">Clear</button>'
+	htmlObject += '<button onclick="clearSelection()">Clear</button><br>'
+	htmlObject += '<span title="Write the names of any property, space separated.">Properties:</span> <input id="input" type="text" onchange="updateChart()" />'
 	setContents("menu", htmlObject)
+	if (localStorage.getItem('input')) {
+        document.getElementById("input").value = localStorage.getItem('input');
+    }
 }
 
 clearSelection = function() {
@@ -175,32 +179,4 @@ function setContents(id, html)
 function addContent(id, html)
 {
 	document.getElementById(id).innerHTML += html;
-}
-
-window.onload = function() {
-	var fileInput = document.getElementById('fileInput')
-	var fileDisplayArea = document.getElementById('fileDisplayArea')
-
-	if (localStorage.getItem('input')) {
-        document.getElementById("input").value = localStorage.getItem('input');
-    }
-
-	fileInput.addEventListener('change', function(e) {
-		var file = fileInput.files[0]
-		var reader = new FileReader()
-
-		reader.onload = function(e) {
-			// fileDisplayArea.innerText = reader.result;
-			timesteps = []
-			headers = []
-			columns = {}
-
-			parse(reader.result)
-			createColumns()
-			createMenu()
-			updateChart()
-		}
-
-		reader.readAsText(file)
-	});
 }

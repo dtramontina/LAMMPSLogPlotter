@@ -1,22 +1,44 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>LAMMPS Log Plotter</title>
-	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script> 
-	<script src="src.js"></script>
+<meta charset="UTF-8" />
+<title>LAMMPS Log Plotter</title>
+<link rel="stylesheet" type="text/css" media="all" href="styles.css" />
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script> 
 </head>
 <body>
-	<div id="page-wrapper">
-		<h1>LAMMPS log plotter</h1>
-		<div>
-			Upload LAMMPS log file
-			<input type="file" id="fileInput">
-		</div>
-	</div>
-	<div id="menu"></div>
-	<div id="submenu">Properties: <input id="input" type="text" onchange="updateChart()" /></div>
-	<div id="PlotlyTest" style="width: 480px; height: 400px;"></div> 
-	<div id="summary"></div>
+
+<form id="upload" action="index.html" method="POST" enctype="multipart/form-data">
+
+<fieldset>
+<legend>Upload LAMMPS log file</legend>
+
+<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
+
+<div>
+	<label for="fileselect">File to upload:</label>
+	<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+	<div id="filedrag">or drop file here</div>
+</div>
+
+<div id="submitbutton">
+	<button type="submit" accesskey="o">Upload Files</button>
+</div>
+
+</fieldset>
+
+</form>
+
+<div id="menu"></div>
+<div id="PlotlyTest" style="width: 480px; height: 400px;"></div> 
+<div id="summary"></div>
+
+<div id="messages">
+<p>Status Messages</p>
+</div>
+
+<script src="filedrag.js"></script>
+<script src="src.js"></script>
 </body>
 </html>
