@@ -108,7 +108,7 @@ updateChart = function() {
 		if(!plotColumn) {
 			for(var i in inputWords) {
 				var word = inputWords[i]
-				if(header===word) {
+				if(header.toLowerCase()===word.toLowerCase()) {
 					plotColumn = true
 					break
 				}
