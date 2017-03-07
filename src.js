@@ -7,6 +7,9 @@ createColumns = function() {
 	for(var i=0; i<headers.length; i++) {
 		var values = []
 		for(var j=0; j<timesteps.length; j++) {
+			if(timesteps[j][i]===undefined) {
+				console.log("faen da...")
+			}
 			values.push(timesteps[j][i])
 		}
 
@@ -19,7 +22,7 @@ parse = function(text) {
 	var nextLineIsHeader = false
 	var nextLineIsData = false
 	var currentLineIsLastDataLine = false
-	var timestep = -1
+	var entryNumber = -1
 	for(var i in arrayOfLines) {
 		var line = arrayOfLines[i]
 		if(line.search("Memory usage per processor =") > -1) {
@@ -53,14 +56,17 @@ parse = function(text) {
 			headers = words
 			nextLineIsHeader = false
 			nextLineIsData = true
-			timestep = 0
 			continue
 		}
 
 		if(nextLineIsData) {
-			timestep += 1
+			entryNumber += 1
 			var words = line.trim().split(/[ ]+/)
 			var values = []
+			if(words.length !== headers.length) {
+				console.log("Skipping entry number ", entryNumber)
+				continue
+			}
 			for(var j in words) {
 				var value = parseFloat(words[j])
 				values.push(value)
@@ -121,7 +127,6 @@ updateChart = function() {
 			var mean = sum / columns[header].length
 			var meanSquared = sumSquared / columns[header].length
 			var variance = meanSquared - mean*mean
-
 			summaryHtml += "Mean("+header+") = "+mean.toFixed(3)
 			summaryHtml += "   Stddev("+header+") = "+Math.sqrt(variance).toFixed(3)+"<br>"
 		}
