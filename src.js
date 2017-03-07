@@ -1,24 +1,6 @@
 timesteps = []
 headers = []
 columns = {}
-ctx = undefined
-chart = undefined
-
-function transposeArray(array, arrayLength){
-
-    var newArray = [];
-    for(var i = 0; i < array.length; i++){
-        newArray.push([]);
-    };
-
-    for(var i = 0; i < array.length; i++){
-        for(var j = 0; j < arrayLength; j++){
-            newArray[j].push(array[i][j]);
-        };
-    };
-
-    return(newArray);
-}
 
 createColumns = function() {
 	columns = []
@@ -93,65 +75,21 @@ parse = function(text) {
 	}
 }
 
-updateChart = function(dataName1, dataName2) {
-	if(ctx === undefined) {
-		ctx = document.getElementById("canvas").getContext("2d")
-	}
+var hasPlottedOnce = false
 
-	var numWantedPoints = 1000
-	var numPoints = columns[headers[0]].length
-	var keepEvery = Math.round(numPoints / numWantedPoints)
-	var points = []
-	for(var i=0; i<numPoints; i+=keepEvery) {
-		points.push({x: columns[dataName1][i], y: columns[dataName2][i]})
+updateChart = function(dataName1, dataName2) {
+	dataset = {
+		x: columns[dataName1],
+		y: columns[dataName2]
 	}
-	if(chart === undefined) {
-		chart = new Chart(ctx, {
-		    type: 'line',
-		    data: {
-		        datasets: [{
-		            label: 'Scatter Dataset',
-		            data: points,
-		            borderColor: window.chartColors.blue,
-		            pointRadius: 0
-		        }]
-		    },
-		    options: {
-                responsive: false,
-                title:{
-                    display:true,
-                    text:'Chart.js Line Chart'
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: true
-                },
-                scales: {
-                    xAxes: [{
-		                type: 'linear',
-		                position: 'bottom'
-		            }]
-                },
-                pan: {
-                	enabled: true,
-                	mode: 'xy'
-                },
-                zoom: {
-                	enabled: true,
-                	mode: 'xy',
-                	sensitivity: 3
-                }
-            }
-		})
-		window.myLine = chart
-	} else {
-		chart.data.datasets[0].data = points
-	}
-	chart.update();
+	Plotly.newPlot("PlotlyTest", [dataset],
+	{
+		margin: { t: 0 },
+		displayModeBar: false,
+		modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian']
+	},
+	{displayModeBar: false}
+	);
 }
 
 window.onload = function() {

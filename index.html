@@ -3,11 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>File API</title>
-	<script src="node_modules/chart.js/dist/Chart.min.js"></script>
-	<script src="node_modules/chart.js/dist/Chart.bundle.js"></script>
-    <script src="node_modules/chart.js/samples/utils.js"></script>
-    <script src="node_modules/chartjs-plugin-zoom/chartjs-plugin-zoom.min.js"></script>
-    <script src="node_modules/hammerjs/hammer.min.js"></script>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script> 
+	<script src="src.js"></script>
 </head>
 <body>
 	<div id="page-wrapper">
@@ -16,11 +13,7 @@
 			Upload LAMMPS log file
 			<input type="file" id="fileInput">
 		</div>
-		<pre id="fileDisplayArea"><pre>
-
 	</div>
-
-	<script src="src.js"></script>
-	<canvas id="canvas" width="400" height="400"></canvas>
+	<div id="PlotlyTest" style="width: 480px; height: 400px;"></div> 
 </body>
 </html>
