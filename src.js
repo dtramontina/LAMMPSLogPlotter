@@ -39,7 +39,7 @@ parse = function(text) {
 		if(nextLineIsHeader) {
 			// Parse word by word, compare to existing header and throw exception if headers have changed
 
-			var words = line.trim().split(" ")
+			var words = line.trim().split(/[ ]+/)
 			if(headers.length > 0) {
 				for(var j in words) {
 					var word = words[j]
@@ -76,8 +76,9 @@ parse = function(text) {
 }
 
 var hasPlottedOnce = false
-
 updateChart = function() {
+	// Save input text
+	localStorage.setItem('input', document.getElementById("input").value)
 
 	var xaxis = document.getElementById("xaxis")
 	var x = []
@@ -93,8 +94,21 @@ updateChart = function() {
 		x = columns[xaxis.value]
 	}
 
+	var input = document.getElementById("input").value
+	var inputWords = input.trim().split(/[ ]+/)
+	
 	for(var header in columns) {
 		var plotColumn = document.getElementById(header).checked
+		if(!plotColumn) {
+			for(var i in inputWords) {
+				var word = inputWords[i]
+				if(header===word) {
+					plotColumn = true
+					break
+				}
+			}
+		}
+
 		var sum = 0
 		var sumSquared = 0
 		if(plotColumn) {
@@ -143,6 +157,8 @@ clearSelection = function() {
 	for(var header in columns) {
 		document.getElementById(header).checked = false
 	}
+	document.getElementById("input").value = ""
+
 	updateChart()
 }
 
@@ -159,6 +175,10 @@ function addContent(id, html)
 window.onload = function() {
 	var fileInput = document.getElementById('fileInput')
 	var fileDisplayArea = document.getElementById('fileDisplayArea')
+
+	if (localStorage.getItem('input')) {
+        document.getElementById("input").value = localStorage.getItem('input');
+    }
 
 	fileInput.addEventListener('change', function(e) {
 		var file = fileInput.files[0]
