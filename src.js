@@ -82,6 +82,9 @@ updateChart = function() {
 	var xaxis = document.getElementById("xaxis")
 	var x = []
 	var datasets = []
+
+	var summaryHtml = ""
+
 	if(xaxis.value==="linenumber") {
 		for (var i = 0; i < columns[headers[0]].length; i++) {
 		    x.push(i);
@@ -92,18 +95,32 @@ updateChart = function() {
 
 	for(var header in columns) {
 		var plotColumn = document.getElementById(header).checked
+		var sum = 0
+		var sumSquared = 0
 		if(plotColumn) {
 			datasets.push({x: x, y: columns[header], name: header})
+			for(var i=0; i<columns[header].length; i++) {
+				sum += columns[header][i]
+				sumSquared += columns[header][i]*columns[header][i]
+			}
+
+			var mean = sum / columns[header].length
+			var meanSquared = sumSquared / columns[header].length
+			var variance = meanSquared - mean*mean
+
+			summaryHtml += "Mean("+header+") = "+mean.toFixed(3)
+			summaryHtml += "   Stddev("+header+") = "+Math.sqrt(variance).toFixed(3)+"<br>"
 		}
 	}
+	setContents("summary", summaryHtml)
 
 	Plotly.newPlot("PlotlyTest", datasets,
-	{
-		margin: { t: 0 },
-		displayModeBar: false,
-		modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian']
-	},
-	{displayModeBar: false}
+		{
+			margin: { t: 0 },
+			displayModeBar: false,
+			modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian']
+		},
+		{ displayModeBar: false }
 	);
 }
 
@@ -149,6 +166,10 @@ window.onload = function() {
 
 		reader.onload = function(e) {
 			// fileDisplayArea.innerText = reader.result;
+			timesteps = []
+			headers = []
+			columns = {}
+
 			parse(reader.result)
 			createColumns()
 			createMenu()
