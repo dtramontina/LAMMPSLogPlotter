@@ -15,7 +15,7 @@ createColumns = function() {
 }
 
 parse = function(text) {
-	arrayOfLines = text.match(/[^\r\n]+/g);
+	arrayOfLines = text.match(/[^\r\n]+/g)
 	var nextLineIsHeader = false
 	var nextLineIsData = false
 	var currentLineIsLastDataLine = false
@@ -77,12 +77,27 @@ parse = function(text) {
 
 var hasPlottedOnce = false
 
-updateChart = function(dataName1, dataName2) {
-	dataset = {
-		x: columns[dataName1],
-		y: columns[dataName2]
+updateChart = function() {
+
+	var xaxis = document.getElementById("xaxis")
+	var x = []
+	var datasets = []
+	if(xaxis.value==="linenumber") {
+		for (var i = 0; i < columns[headers[0]].length; i++) {
+		    x.push(i);
+		}
+	} else {
+		x = columns[xaxis.value]
 	}
-	Plotly.newPlot("PlotlyTest", [dataset],
+
+	for(var header in columns) {
+		var plotColumn = document.getElementById(header).checked
+		if(plotColumn) {
+			datasets.push({x: x, y: columns[header], name: header})
+		}
+	}
+
+	Plotly.newPlot("PlotlyTest", datasets,
 	{
 		margin: { t: 0 },
 		displayModeBar: false,
@@ -92,22 +107,54 @@ updateChart = function(dataName1, dataName2) {
 	);
 }
 
+createMenu = function() {
+	var htmlObject = ""
+	htmlObject += 'Choose x-axis:<br> <select id="xaxis" class="menu" onchange="updateChart()"><option value="linenumber">Line number</option>'
+	for(var i in headers) {
+		htmlObject+='<option value="'+headers[i]+'">'+headers[i]+'</option>'
+	}
+	htmlObject+="</select><br>"
+
+	for(var i in headers) {
+		htmlObject+='<input id='+headers[i]+' type="checkbox" onchange="updateChart()" value="'+headers[i]+'">'+headers[i]
+	}
+	htmlObject += '<button onclick="clearSelection()">Clear</button>'
+	setContents("menu", htmlObject)
+}
+
+clearSelection = function() {
+	for(var header in columns) {
+		document.getElementById(header).checked = false
+	}
+	updateChart()
+}
+
+function setContents(id, html)
+{
+	document.getElementById(id).innerHTML = html;
+}
+
+function addContent(id, html)
+{
+	document.getElementById(id).innerHTML += html;
+}
+
 window.onload = function() {
-	var fileInput = document.getElementById('fileInput');
-	var fileDisplayArea = document.getElementById('fileDisplayArea');
+	var fileInput = document.getElementById('fileInput')
+	var fileDisplayArea = document.getElementById('fileDisplayArea')
 
 	fileInput.addEventListener('change', function(e) {
-		var file = fileInput.files[0];
-		
-		var reader = new FileReader();
+		var file = fileInput.files[0]
+		var reader = new FileReader()
 
 		reader.onload = function(e) {
 			// fileDisplayArea.innerText = reader.result;
 			parse(reader.result)
 			createColumns()
-			updateChart("Time", "Temp")
+			createMenu()
+			updateChart()
 		}
 
-		reader.readAsText(file);	
+		reader.readAsText(file)
 	});
 }
