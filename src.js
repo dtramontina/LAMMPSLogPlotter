@@ -1,7 +1,7 @@
 timesteps = []
 headers = []
 columns = {}
-
+currentXValues = []
 createColumns = function() {
 	columns = []
 	for(var i=0; i<headers.length; i++) {
@@ -87,51 +87,25 @@ updateChart = function() {
 	localStorage.setItem('input', document.getElementById("input").value)
 
 	var xaxis = document.getElementById("xaxis")
-	var x = []
+	currentXValues = []
 	var datasets = []
 
 	var summaryHtml = ""
 
 	if(xaxis.value==="linenumber") {
 		for (var i = 0; i < columns[headers[0]].length; i++) {
-		    x.push(i);
+		    currentXValues.push(i);
 		}
 	} else {
-		x = columns[xaxis.value]
+		currentXValues = columns[xaxis.value]
 	}
 
-	var input = document.getElementById("input").value
-	var inputWords = input.trim().split(/[ ]+/)
-	
 	for(var header in columns) {
-		var plotColumn = document.getElementById(header).checked
-		if(!plotColumn) {
-			for(var i in inputWords) {
-				var word = inputWords[i]
-				if(header.toLowerCase()===word.toLowerCase()) {
-					plotColumn = true
-					break
-				}
-			}
-		}
-
-		var sum = 0
-		var sumSquared = 0
-		if(plotColumn) {
-			datasets.push({x: x, y: columns[header], name: header})
-			for(var i=0; i<columns[header].length; i++) {
-				sum += columns[header][i]
-				sumSquared += columns[header][i]*columns[header][i]
-			}
-
-			var mean = sum / columns[header].length
-			var meanSquared = sumSquared / columns[header].length
-			var variance = meanSquared - mean*mean
-			summaryHtml += "Mean("+header+") = "+mean.toFixed(3)
-			summaryHtml += "   Stddev("+header+") = "+Math.sqrt(variance).toFixed(3)+"<br>"
+		if(columnEnabled(header)) {
+			datasets.push({x: currentXValues, y: columns[header], name: header})
 		}
 	}
-	setContents("summary", summaryHtml)
+	updateSummary()
 
 	Plotly.newPlot("PlotlyTest", datasets,
 		{
@@ -141,6 +115,75 @@ updateChart = function() {
 		},
 		{ displayModeBar: false }
 	);
+
+	if(!hasPlottedOnce) {
+		document.getElementById("PlotlyTest").on('plotly_relayout',
+	    function(eventdata){  
+	    	var xmin = eventdata['xaxis.range[0]']
+	    	var xmax = eventdata['xaxis.range[1]']
+	    	updateSummary(xmin, xmax)
+	    })
+	}
+	hasPlottedOnce = true
+}
+
+columnEnabled = function(header) {
+	var plotColumn = document.getElementById(header).checked
+	if(plotColumn) return true
+
+	var input = document.getElementById("input").value
+	var inputWords = input.trim().split(/[ ]+/)
+	for(var i in inputWords) {
+		var word = inputWords[i]
+		if(header.toLowerCase()===word.toLowerCase()) {
+			return true
+		}
+	}
+
+	return false
+}
+
+updateSummary = function(xmin, xmax) {
+	var summaryHtml = ""
+
+	var input = document.getElementById("input").value
+	var inputWords = input.trim().split(/[ ]+/)
+	for(var header in columns) {
+		if(columnEnabled(header)) {
+			var sum = 0
+			var sumSquared = 0
+			var count = 0
+			for(var i=0; i<columns[header].length; i++) {
+				if(xmin !== undefined) {
+					if(currentXValues[i] < xmin) continue
+				}
+				if(xmax !== undefined) {
+					if(xmax < currentXValues[i]) continue
+				}
+
+				count += 1
+				sum += columns[header][i]
+				sumSquared += columns[header][i]*columns[header][i]
+			}
+
+			var mean = sum / count
+			var meanSquared = sumSquared / count
+			var variance = meanSquared - mean*mean
+			summaryHtml += "Mean("+header+") = "+mean.toFixed(3)
+			summaryHtml += "   Stddev("+header+") = "+Math.sqrt(variance).toFixed(3)+"<br>"
+		}
+	}
+	setContents("summary", summaryHtml)
+	/*
+	myDiv.on('plotly_relayout',
+    function(eventdata){  
+        alert( 'ZOOM!' + '\n\n' +
+            'Event data:' + '\n' + 
+             JSON.stringify(eventdata) + '\n\n' +
+            'x-axis start:' + eventdata['xaxis.range[0]'] + '\n' +
+            'x-axis end:' + eventdata['xaxis.range[1]'] );
+    });
+	*/
 }
 
 createMenu = function() {
