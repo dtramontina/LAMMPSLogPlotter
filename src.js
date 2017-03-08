@@ -174,16 +174,6 @@ updateSummary = function(xmin, xmax) {
 		}
 	}
 	setContents("summary", summaryHtml)
-	/*
-	myDiv.on('plotly_relayout',
-    function(eventdata){  
-        alert( 'ZOOM!' + '\n\n' +
-            'Event data:' + '\n' + 
-             JSON.stringify(eventdata) + '\n\n' +
-            'x-axis start:' + eventdata['xaxis.range[0]'] + '\n' +
-            'x-axis end:' + eventdata['xaxis.range[1]'] );
-    });
-	*/
 }
 
 createMenu = function() {
