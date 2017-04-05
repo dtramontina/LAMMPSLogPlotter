@@ -25,7 +25,7 @@ parse = function(text) {
 	var entryNumber = -1
 	for(var i in arrayOfLines) {
 		var line = arrayOfLines[i]
-		if(line.search("Memory usage per processor =") > -1) {
+		if(line.search("Memory usage per processor =") > -1 || line.search("Per MPI rank memory allocation (min/avg/max)") > -1) {
 			// Next line is a header line
 			nextLineIsHeader = true
 			continue
