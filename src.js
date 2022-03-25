@@ -110,25 +110,9 @@ updateChart = function() {
 	updateSummary()
 	var layout = {displayModeBar: true, modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian'], 
 		      title: 'Click Here<br>to Edit Chart Title', 
-		      xaxis: {
-			      title: {
-				      text: xlabel,
-				      font: {
-					      family: 'Courier New, monospace',
-					      size: 18,
-					      color: '#7f7f7f'},
-				      },
-			      },
-		      yaxis: {
-			      title: {
-				      text: ylabel,
-				      font: {
-					      family: 'Courier New, monospace',
-					      size: 18,
-					      color: '#7f7f7f'},
-				      },
-			      },
-		      }
+		      xaxis: {title: {text: xlabel, font: {family: 'Courier New, monospace', size: 18, color: '#7f7f7f'}}},
+		      yaxis: {title: {text: ylabel, font: {family: 'Courier New, monospace', size: 18, color: '#7f7f7f'}}},
+		     }
 	var confg = { displayModeBar: true, editable: false, displaylogo: false }
 	Plotly.newPlot("PlotlyTest", datasets, layout, confg);
 
