@@ -177,7 +177,7 @@ updateSummary = function(xmin, xmax) {
 
 createMenu = function() {
 	var htmlObject = ""
-	htmlObject += 'Choose x-axis:<br> <select id="xaxis" class="menu" onchange="updateChart()"><option value="linenumber">Line number</option>'
+	htmlObject += 'Choose x-axis: <select id="xaxis" class="menu" onchange="updateChart()"><option value="linenumber">Line number</option>'
 	for(var i in headers) {
 		htmlObject+='<option value="'+headers[i]+'">'+headers[i]+'</option>'
 	}
@@ -186,7 +186,7 @@ createMenu = function() {
 	for(var i in headers) {
 		htmlObject+='<input id='+headers[i]+' type="checkbox" onchange="updateChart()" value="'+headers[i]+'">'+headers[i]
 	}
-	htmlObject += '<button onclick="clearSelection()">Clear</button><br>'
+	htmlObject += '  <button onclick="clearSelection()">Clear</button><br>'
 	htmlObject += '<span title="Write the names of any property, space separated.">Properties:</span> <input id="input" type="text" onchange="updateChart()" />'
 	setContents("menu", htmlObject)
 	if (localStorage.getItem('input')) {
