@@ -111,9 +111,10 @@ updateChart = function() {
 	Plotly.newPlot("PlotlyTest", datasets,
 		{
 			displayModeBar: true,
-			modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian']
+			modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian'],
+			title: 'Click Here<br>to Edit Chart Title'
 		},
-		{ displayModeBar: true, editable: True }
+		{ displayModeBar: true, editable: True, displaylogo: false }
 	);
 
 	if(!hasPlottedOnce) {
