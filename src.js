@@ -114,7 +114,7 @@ updateChart = function() {
 			modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian'],
 			title: 'Click Here<br>to Edit Chart Title'
 		},
-		{ displayModeBar: true, editable: True, displaylogo: false }
+		{ displayModeBar: true, editable: true, displaylogo: false }
 	);
 
 	if(!hasPlottedOnce) {
