@@ -5,7 +5,7 @@ Developed by Craig Buckler (@craigbuckler) of OptimalWorks.net
 */
 body
 {
-	font-family: "Source Sans Pro", sans-serif;
+	font-family: "Segoe UI", Tahoma, Helvetica, freesans, sans-serif;
 	font-size: 90%;
 	margin: 10px;
 	color: #333;
@@ -14,16 +14,13 @@ body
 
 h1, h2
 {
-		font-size: 2.25rem;
-		line-height: 1.3;
-		letter-spacing: 0.5rem;
+	font-size: 1.5em;
+	font-weight: normal;
 }
 
 h2
 {
-		font-size: 1.5rem;
-		line-height: 1.4;
-		letter-spacing: 0.5rem;
+	font-size: 1.3em;
 }
 
 legend
