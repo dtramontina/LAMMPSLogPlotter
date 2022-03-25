@@ -92,8 +92,7 @@ updateChart = function() {
 	var datasets = []
 
 	var summaryHtml = ""
-	var xlabel = xaxis.value
-	
+
 	if(xaxis.value==="linenumber") {
 		for (var i = 0; i < columns[headers[0]].length; i++) {
 		    currentXValues.push(i);
@@ -101,7 +100,8 @@ updateChart = function() {
 	} else {
 		currentXValues = columns[xaxis.value]
 	}
-for(var header in columns) {
+	var xlabel = xaxis.value
+	for(var header in columns) {
 		if(columnEnabled(header)) {
 			datasets.push({x: currentXValues, y: columns[header], name: header})
 			var ylabel = header
@@ -111,7 +111,7 @@ for(var header in columns) {
 	var layout = {displayModeBar: true, modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian'], 
 		      title: 'Click Here<br>to Edit Chart Title', 
 		     xtitle: xlabel, ytitle : ylabel }
-	var confg = { displayModeBar: true, editable: true, displaylogo: false }
+	var confg = { displayModeBar: true, editable: false, displaylogo: false }
 	Plotly.newPlot("PlotlyTest", datasets, layout, confg);
 
 	if(!hasPlottedOnce) {
