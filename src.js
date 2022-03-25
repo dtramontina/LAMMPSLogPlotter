@@ -110,11 +110,10 @@ updateChart = function() {
 
 	Plotly.newPlot("PlotlyTest", datasets,
 		{
-			margin: { t: 0 },
 			displayModeBar: true,
 			modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian']
 		},
-		{ displayModeBar: true }
+		{ displayModeBar: true, editable: True }
 	);
 
 	if(!hasPlottedOnce) {
