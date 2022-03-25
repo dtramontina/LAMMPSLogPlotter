@@ -108,15 +108,11 @@ updateChart = function() {
 		}
 	}
 	updateSummary()
-	if ( datasets.length > 1 ) {
-		ylabel = ""
-	}
 	var layout = {displayModeBar: true, modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian'], 
 		      title: 'Click Here<br>to Edit Chart Title', 
 		      xaxis: {title: {text: xlabel, font: {family: 'Courier New, monospace', size: 18, color: '#7f7f7f'}}},
-		      yaxis: {title: {text: ylabel, font: {family: 'Courier New, monospace', size: 18, color: '#7f7f7f'}}},
-		     }
-	var confg = { displayModeBar: true, editable: false, displaylogo: false }
+		      }
+	var confg = { displayModeBar: true, editable: true, displaylogo: false }
 	Plotly.newPlot("PlotlyTest", datasets, layout, confg);
 
 	if(!hasPlottedOnce) {
