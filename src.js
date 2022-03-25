@@ -107,15 +107,9 @@ updateChart = function() {
 		}
 	}
 	updateSummary()
-
-	Plotly.newPlot("PlotlyTest", datasets,
-		{
-			displayModeBar: true,
-			modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian'],
-			title: 'Click Here<br>to Edit Chart Title'
-		},
-		{ displayModeBar: true, editable: true, displaylogo: false }
-	);
+	var layout = {displayModeBar: true, modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian'], title: 'Click Here<br>to Edit Chart Title'}
+	var confg = { displayModeBar: true, editable: true, displaylogo: false }
+	Plotly.newPlot("PlotlyTest", datasets, layout, confg);
 
 	if(!hasPlottedOnce) {
 		document.getElementById("PlotlyTest").on('plotly_relayout',
