@@ -62,8 +62,8 @@ pre
 	font-family: monospace;
 	font-size: 0.9em;
 	text-align: center;
-	padding: 1px 2px;
-	margin: 1em 0;
+	padding: 0  0;
+	margin: 0 0;
 	border: 1px solid #999;
 	background-color: #eee;
 	overflow: auto;
@@ -80,8 +80,8 @@ pre
 {
 	display: block;
 	width: 240px;
-	padding: 2px 5px;
-	margin: 2px 0;
+	padding: 0px 0px;
+	margin: 0px 0;
 	border: 1px inset #446;
 	border-radius: 5px;
 	background: #eee url("progress.png") 100% 0 repeat-y;
