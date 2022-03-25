@@ -108,6 +108,9 @@ updateChart = function() {
 		}
 	}
 	updateSummary()
+	if ( datasets.length > 1 ) {
+		ylabel = ""
+	}
 	var layout = {displayModeBar: true, modeBarButtonsToRemove: ['sendDataToCloud','hoverCompareCartesian'], 
 		      title: 'Click Here<br>to Edit Chart Title', 
 		      xaxis: {title: {text: xlabel, font: {family: 'Courier New, monospace', size: 18, color: '#7f7f7f'}}},
