@@ -71,7 +71,7 @@ pre
 
 #header 
 {
-	display:flex;
+	display: flex;
 	flex-direction: row;
 	
 }
