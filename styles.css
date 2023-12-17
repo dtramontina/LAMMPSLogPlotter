@@ -69,6 +69,13 @@ pre
 	overflow: auto;
 }
 
+#header 
+{
+	display:flex;
+	flex-direction: row;
+	
+}
+
 #messages
 {
 	padding: 0 10px;
