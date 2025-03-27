@@ -187,7 +187,7 @@ createMenu = function() {
 	for(var i in headers) {
 		htmlObject+='<input id='+headers[i]+' type="checkbox" onchange="updateChart()" value="'+headers[i]+'">'+headers[i]
 	}
-	htmlObject += '<span button onclick="clearSelection()">Clear</button><br>'
+	htmlObject += '<span button onclick="clearSelection()">  Clear</button><br>'
 	htmlObject += '<span title="Write the names of any property, space separated.">Properties:</span> <input id="input" type="text" onchange="updateChart()" />'
 	setContents("menu", htmlObject)
 	if (localStorage.getItem('input')) {
